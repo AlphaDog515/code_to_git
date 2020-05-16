@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--namespace 对应前面定义的接口 为那个接口服务的接口全类名-->
+<mapper namespace="com.atguigu.gmallpublish.mapper.OrderInfoMapper">
+
+    <select id="getTotalAmount" resultType="java.lang.Double">
+        SELECT SUM(TOTAL_AMOUNT) FROM GMALL_ORDER_INFO1015 WHERE CREATE_DATE=#{DATE}
+    </select>
+
+    <select id="getHourAmount" resultMap="orderAmountList">
+        SELECT CREATE_HOUR,SUM(TOTAL_AMOUNT) SUM FROM GMALL_ORDER_INFO1015 WHERE CREATE_DATE =#{DATE} GROUP BY CREATE_HOUR
+    </select>
+    <resultMap id="orderAmountList" type="java.util.map" autoMapping="true"></resultMap>
+
+</mapper>

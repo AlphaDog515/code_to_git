@@ -1,0 +1,86 @@
+
+
+一 mysql常用命令：
+	
+   查看所有的库 ： show databases;
+   选中库 ：use 库名;
+   创建表 ：create table person(id int,name varchar(20));
+   查看mysql表中的变量和值 ： show variables;
+   查看表的创建的信息 ：show create table 表名;
+   查看库的创建的信息 ：show create database 库名;
+   
+ 二 mysql的编码集的说明：
+	1.mysql默认创建表和库的时候编码集都是latin1
+	2.可以修改默认文件，再创建表和库的时候那么编码集就是我们修改后的编码集。
+	3.最好的做法是在安装mysql的时候先不要创建库和表还有插入任何数据，先设置编码集。
+	4.正确做法是在创建库和创建表时就指明编码集 ：
+		例 create database mydb3 default charset='gbk';
+		   create table emp(id int,name varchar(20)) default charset='gbk';
+		   
+		   
+三 sql_mode :  设置校验规则
+
+四 使用sqlyog连接mysql:
+	1.mysql服务器是否启动
+	2.检查3306端口是否开启
+	3.防火墙是否关闭
+	4.授权 ：grant all privileges on *.* to joe@'%'  identified by '123';
+		all privileges : 所有权限（增删改查等....）
+		*.* :第一*是所有的库，第二个*是所有的表
+		joe : 允许访问的用户名
+		123 ：允许访问的密码
+		%（可以写成具体的某个地址） ：允许任何ip地址进行访问（除本机外）
+	5.删除授权用户 ：
+		drop user '用户名'@'host地址'
+
+五 show profile:
+	/*
+		第二次查询该语句时，直接是从缓存中获取的，因为没有开表（opening tables）
+	*/
+	SELECT * FROM  employees;
+	/*
+	mysql会把执行语句作为key,两个key不同那就缓存中查找不到
+	*/
+	SELECT id,NAME,salary,did FROM  employees;
+
+	/*
+	SQL_NO_CACHE : 不从缓存中查找数据
+	注意 ：mysql8.0去掉了查询缓存
+	*/
+	SELECT SQL_NO_CACHE * FROM  employees;
+
+	/*
+	缓存是以表为单为的，一旦表中的数据发生更改那么缓存清空
+	*/
+	INSERT INTO employees VALUES(5,'ff',50,10);
+
+	SELECT * FROM  employees;
+
+	SHOW PROFILES; // 看看哪些操作耗时
+
+	SHOW PROFILE cpu,block io FOR QUERY 70;
+	
+	
+六 克隆：
+	1.修改网卡
+	2.修改ip地址和主机名
+	3.查看网络是否是通的
+	4.记着关闭防火墙
+	5.如果没有安装mysql,mysql要安装好并启动mysql服务器
+	
+七 主从复制：
+	1.主机和从机都需要设置配置文件
+	2.从机执行mysql> change master to master_user='root',master_password='123321',master_host='192.168.60.88',
+	master_log_file='mysql-bin.000007',master_log_pos=249;
+	3.show master status / show slave status : 查看主机和从机的信息
+	4.注意 ：从机一定机执行 start slave;
+
+	
+	 mid   name   wid        	wid 	name       mid
+	 
+	 1    辉哥	 1				 1  	乔碧罗      1
+	 2	  龙哥	 2				 2  	高圆圆      2
+	 3	  园哥					 3  	苍姐
+
+	
+			

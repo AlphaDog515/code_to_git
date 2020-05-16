@@ -1,0 +1,46 @@
+git config --global user.name "AlphaDog515"
+git config --global user.email "18752093039@163.com"
+
+git add . 将当前工作区的全部提交
+
+
+
+// 在哪个分支上 就把其他的合并过来
+
+git branch -d 分支名 // 删除分支 -D 没有合并也可以删除
+
+
+冲突解决：修改冲突文件[删除 保存] 提交缓存区 提交本地库 
+ 
+// git连接GitHub
+ssh-keygen -t rsa // 生成密钥文件
+GitHub网站，选择设置，选择ssh and gpg keys，选择new ssh key;
+ssh -T git@github.com // 查看是否连接成功
+git push -u git@github.com:AlphaDog515/MyProject.git master // 项目push到GitHub
+git remote -v // 查看变量名
+git remote add origin git@github.com:AlphaDog515/MyProject.git  // 添加变量名
+
+// 从GitHub上克隆，点击clone会出现网址
+git clone git@github.com:AlphaDog515/MyProject.git
+
+
+// 合作开发
+// 先拉下来再推上去
+git pull 远程地址[git@github.com:AlphaDog515/MyProject.git] master
+解决冲突，add,commit，然后push
+git push -u origin master
+
+git fetch origin master
+git checkout 远程地址 master
+
+git diff 远程地址/master  // 查看区别
+
+
+
+报错：Fatal: cannot do a partial commit during a merge
+原因是git认为你有部分代码没有做好提交的准备,
+解决方法是：（1）提交全部
+git commit -a
+（2）如果不想提交全部,那么可以通过添加 -i 选项
+git commit file/to/path -i -m "merge"
+
